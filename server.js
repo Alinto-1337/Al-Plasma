@@ -1,24 +1,24 @@
-const express = require('express'); // import express
-const app = express(); // declare our app variable
-const port = 3000; // declare our port variable
 
-// these make handling our data requests easier
-app.use(express.json())
+
+const express = require('express');
+const app = express();
+
+// Import route files
+const loginRoute = require('./place/login');
+const signupRoute = require('./place/signup');
+const gameRoute = require('./place/game');
+
+// Middleware to parse request bodies
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
-    res.send({ msg: "" });
-});
+// Use route files as middleware
+app.use('/place/login', loginRoute);
+app.use('/place/signup', signupRoute);
+app.use('/place/game', gameRoute);
 
-app.post("/", (req, res) =>{
-    const data = req.body; 
-    
-
-    res.send({ msg: "HI Other Alinto!!!" });
-})
-
-// This actually starts the server
+// Start the server
+const port = 3000;
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}!`);
+  console.log(`Server is running on port ${port}!`);
 });
-
